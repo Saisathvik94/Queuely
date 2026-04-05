@@ -1,1 +1,4 @@
-Queuely is a background job engine built with Node.js and TypeScript. It offloads long-running tasks like image resizing, PDF generation, email dispatch into a reliable queue powered by BullMQ, Redis and AWS SQS. Results are stored in S3 and delivered via presigned URLs.
+**Queuely** is a background job engine built with Node.js and TypeScript. It offloads long-running tasks like image resizing, PDF generation, email dispatch into a reliable queue powered by BullMQ, Redis and AWS SQS. Results are stored in S3 and delivered via presigned URLs.
+
+## Architecture Diagram 
+![ image ](assets/architecture.png)
