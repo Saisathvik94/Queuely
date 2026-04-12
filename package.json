@@ -1,0 +1,34 @@
+{
+  "name": "queuely",
+  "version": "1.0.0",
+  "description": "**Queuely** is a background job engine built with Node.js and TypeScript. It offloads long-running tasks like image resizing, PDF generation, email dispatch into a reliable queue powered by BullMQ, Redis and AWS SQS. Results are stored in S3 and delivered via presigned URLs.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saisathvik94/Queuely.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Saisathvik94/Queuely/issues"
+  },
+  "homepage": "https://github.com/Saisathvik94/Queuely#readme",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "eslint": "^10.2.0",
+    "prettier": "^3.8.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^6.0.2"
+  }
+}
