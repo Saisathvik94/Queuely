@@ -2,7 +2,7 @@
 export type JobStatus = "pending" | "active" | "completed" | "failed" ;
 
 // Email Worker payload
-export interface Email {
+export interface EmailPayload {
     type: "email";
     to: string;
     subject: string;
@@ -10,16 +10,15 @@ export interface Email {
 }
 
 // PDF Worker payload
-export interface Pdf {
+export interface PdfPayload {
     type: "pdf";
     fileName: string;
     template: string;
     data: string;
-    S3_Url: string;
 }
 
 //Image resize Payload
-export interface Image {
+export interface ImagePayload {
     type: "image";
     ImageUrl: string;
     resize: { width: number; height: number }[];
@@ -30,7 +29,29 @@ export interface Image {
 export type JobType = "image" | "email" | "pdf" ;
 
 //Job payload
-export type JobPayload = Image | Email | Pdf;
+export type JobPayload = ImagePayload | EmailPayload | PdfPayload;
+
+
+// Image Result
+export interface ImageResult {
+    type: "image";
+    s3Urls: string[];              
+}
+// Emailresult
+export interface EmailResult {
+    type: "email";
+    jobId: string;
+    messageId: string;
+    deliveredAt: Date;
+}
+// PDF result
+export interface PdfResult {
+    type: "pdf";
+    s3Url: string;
+    fileName: string;
+}
+// Job result
+export type JobResult = ImageResult | EmailResult | PdfResult;
 
 
 // Job Record
@@ -38,9 +59,12 @@ export interface JobRecord {
     jobId: string;
     type: JobType;
     status: JobStatus;
-    createdAt: string;
-    updatedAt: string;
+    progress: number;             
     payload: JobPayload;
+    result?: JobResult;           
+    error?: string;            
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 // API response
@@ -49,4 +73,22 @@ export interface ApiResponse<T> {
     data?: T;
     error?: string;
     message?: string;
+}
+
+export interface JobSubmitResponse {
+    jobId: string;
+    type: JobType;
+    status: "pending";
+    message: string;
+}
+
+export interface JobStatusResponse {
+    jobId: string;
+    type: JobType;
+    status: JobStatus;
+    progress: number;
+    result?: JobResult;
+    error?: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
