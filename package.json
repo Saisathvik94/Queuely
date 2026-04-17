@@ -4,7 +4,7 @@
   "description": "**Queuely** is a background job engine built with Node.js and TypeScript. It offloads long-running tasks like image resizing, PDF generation, email dispatch into a reliable queue powered by BullMQ, Redis and AWS SQS. Results are stored in S3 and delivered via presigned URLs.",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint src/**/*.ts",
@@ -17,18 +17,31 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Saisathvik94/Queuely/issues"
   },
   "homepage": "https://github.com/Saisathvik94/Queuely#readme",
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
+    "@types/nodemailer": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
     "eslint": "^10.2.0",
     "prettier": "^3.8.2",
-    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "@bull-board/api": "^7.0.0",
+    "@bull-board/express": "^7.0.0",
+    "bullmq": "^5.74.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "ioredis": "^5.10.1",
+    "nodemailer": "^8.0.5",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
   }
 }
