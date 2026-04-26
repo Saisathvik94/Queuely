@@ -40,3 +40,9 @@ Thumbs.db
 # IDE specific
 .idea/
 *.iml
+
+
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup

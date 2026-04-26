@@ -34,6 +34,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.1034.0",
     "@bull-board/api": "^7.0.0",
     "@bull-board/express": "^7.0.0",
     "bullmq": "^5.74.1",
@@ -41,7 +42,6 @@
     "express": "^5.2.1",
     "ioredis": "^5.10.1",
     "nodemailer": "^8.0.5",
-    "uuid": "^13.0.0",
     "zod": "^4.3.6"
   }
 }
