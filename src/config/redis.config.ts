@@ -1,25 +1,17 @@
-import {Redis} from "ioredis"
-import dotenv from "dotenv"
+import { Redis } from "ioredis"
 import { env } from "./env.config.js";
 
 
-dotenv.config();
+const redisUrl = env.REDIS_URL
 
-const redisHost = env.REDIS_HOST
 
-const redisPort = env.REDIS_PORT
-
-if (!redisHost) {
+if (!redisUrl) {
   throw new Error("REDIS_URL is undefined")
 }
-if (!redisPort) {
-  throw new Error("REDIS_PORT is undefined")
-}
 
 
-export const redisConnection = new Redis({
-  host: redisHost,
-  port: redisPort,
+
+export const redisConnection = new Redis(redisUrl, {
   maxRetriesPerRequest: null,
 })
 
