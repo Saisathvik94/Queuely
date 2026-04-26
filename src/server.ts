@@ -1,26 +1,25 @@
 import express  from "express"
 import { serverAdapter } from "./dashboard/bullboard.js";
-import { generateJobId } from "./utils/jobId.js";
-import { addEmailJob } from "./queues/email.queue.js";
-
+import  EmailRouter from "./api/api.js";
+import { startConsumer } from "./consumer/sqs.consumer.js";
+import { env } from "./config/env.config.js";
 
 const app = express();
 
+app.use(express.json());
+
+
 app.use("/dashboard", serverAdapter.getRouter())
+app.use("/", EmailRouter)
+
+const redisHost = env.REDIS_HOST
+
+const redisPort = env.REDIS_PORT
 
 
 app.listen(3000, async()=>{
+    startConsumer();
+    console.log(`http://${redisHost}:${redisPort}`);
     console.log("Queuely running at http://localhost:3000")
     console.log("Bull Board at http://localhost:3000/dashboard")
-
-    const jobId = generateJobId("email");
-    await addEmailJob(jobId, {
-        type: "email",
-        to: "saisathwik63@gmail.com",
-        subject: "Hello from Queuely",
-        body: "<h1>Queuely works!</h1><p>Your first background email job.</p>",
-    });
-
-    console.log({jobId}, "Test email job added to queue")
-
 })
