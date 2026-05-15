@@ -14,9 +14,11 @@ const data = [
 
 export function UsageChart() {
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-4 border-border/80">
       <CardHeader>
-        <CardTitle>Usage Overview</CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          Delivery volume
+        </CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
         <div className="h-[350px]">

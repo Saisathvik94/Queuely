@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   return (
     <>
       <Topbar title="Overview" />
-      <main className="flex-1 p-6 space-y-6">
+      <main className="flex-1 space-y-6 p-4 md:p-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Total Sent"

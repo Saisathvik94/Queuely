@@ -1,4 +1,4 @@
-import { Pricing } from "@/components/marketing/Pricing"
+import Pricing from "@/components/marketing/Pricing"
 
 export const metadata = {
   title: "Pricing | Queuely",

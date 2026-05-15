@@ -1,142 +1,114 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useAuth, UserButton } from "@clerk/nextjs"
-import { Menu, X } from "lucide-react"
+import { Menu } from "lucide-react"
+import { Logo } from "@/components/brand/logo"
+import { Button } from "@/components/ui/Button"
+import { ThemeToggle } from "@/components/theme-toggle"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+const links = [
+  { href: "/#features", label: "Features" },
+  { href: "/docs", label: "Docs" },
+  { href: "/#pricing", label: "Pricing" },
+]
 
 export default function Navbar() {
   const { isSignedIn } = useAuth()
-  const [activeSection, setActiveSection] = useState("")
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["features", "pricing"]
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            return
-          }
-        }
-      }
-      setActiveSection("")
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const closeMenu = () => setIsMobileMenuOpen(false)
+  const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-md transition-all">
-      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 lg:px-6">
+        <Logo />
 
-        {/* Logo */}
-        <Link href="/" onClick={closeMenu} className="flex items-center space-x-3 z-50">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-white font-bold shadow-lg shadow-violet-500/20">
-            Q
-          </div>
-          <span className="font-bold text-xl tracking-tight text-white">Queuely</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-          <Link href="#features" className={`transition-colors hover:text-white ${activeSection === "features" ? "text-white" : "text-gray-400"}`}>
-            Features
-          </Link>
-          <Link href="#pricing" className={`transition-colors hover:text-white ${activeSection === "pricing" ? "text-white" : "text-gray-400"}`}>
-            Pricing
-          </Link>
-          <Link href="/docs" className="text-gray-400 hover:text-white transition-colors">
-            Docs
-          </Link>
+        <nav className="hidden items-center gap-1 md:flex">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Desktop Auth */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           {isSignedIn ? (
             <>
               <Link href="/dashboard">
-                <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/10">
+                <Button variant="outline" size="sm">
                   Dashboard
                 </Button>
               </Link>
-              <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden border border-white/10">
-                <UserButton afterSignOutUrl="/" />
-              </div>
+              <UserButton />
             </>
           ) : (
             <>
               <Link href="/sign-in">
-                <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/10">
+                <Button variant="ghost" size="sm">
                   Sign in
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button className="bg-violet-600 text-white hover:bg-violet-700 shadow-lg shadow-violet-600/20">
-                  Get started
-                </Button>
+                <Button size="sm">Start building</Button>
               </Link>
             </>
           )}
         </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden flex items-center justify-center text-gray-300 hover:text-white z-50"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-[#0A0A0A]/95 backdrop-blur-xl border-b border-white/5 md:hidden flex flex-col px-4 py-8 space-y-6 shadow-2xl z-40">
-          <Link href="#features" onClick={closeMenu} className="text-lg font-medium text-gray-300 hover:text-white">Features</Link>
-          <Link href="#pricing" onClick={closeMenu} className="text-lg font-medium text-gray-300 hover:text-white">Pricing</Link>
-          <Link href="/docs" onClick={closeMenu} className="text-lg font-medium text-gray-300 hover:text-white">Docs</Link>
-
-          <div className="h-px w-full bg-white/10" />
-
-          <div className="flex flex-col space-y-4">
-            {isSignedIn ? (
-              <>
-                <Link href="/dashboard" onClick={closeMenu}>
-                  <Button className="w-full bg-violet-600 text-white hover:bg-violet-700 justify-center">
-                    Go to Dashboard
-                  </Button>
-                </Link>
-                <div className="flex items-center space-x-3 pt-2">
-                  <UserButton afterSignOutUrl="/" />
-                  <span className="text-sm text-gray-400">Manage Account</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link href="/sign-in" onClick={closeMenu}>
-                  <Button variant="ghost" className="w-full text-gray-300 hover:text-white hover:bg-white/10 justify-start px-0">
-                    Sign in
-                  </Button>
-                </Link>
-                <Link href="/sign-up" onClick={closeMenu}>
-                  <Button className="w-full bg-violet-600 text-white hover:bg-violet-700 justify-center">
-                    Get started
-                  </Button>
-                </Link>
-              </>
-            )}
-          </div>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Menu">
+                <Menu className="size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full border-border sm:max-w-xs">
+              <nav className="mt-8 flex flex-col gap-1">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="rounded-md px-3 py-3 text-base hover:bg-muted"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6">
+                {isSignedIn ? (
+                  <Link href="/dashboard" onClick={() => setOpen(false)}>
+                    <Button className="w-full" variant="outline">
+                      Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/sign-in" onClick={() => setOpen(false)}>
+                      <Button variant="ghost" className="w-full">
+                        Sign in
+                      </Button>
+                    </Link>
+                    <Link href="/sign-up" onClick={() => setOpen(false)}>
+                      <Button className="w-full">Start building</Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      )}
+      </div>
     </header>
   )
 }

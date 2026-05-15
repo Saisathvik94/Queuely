@@ -52,7 +52,7 @@ export default async function SettingsPage() {
               <div>
                 <label className="text-sm font-medium">Current Plan</label>
                 <div className="mt-1 flex items-center space-x-2">
-                  <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-semibold text-violet-800 dark:bg-violet-900/30 dark:text-violet-500">Free Tier</span>
+                  <span className="inline-flex items-center rounded-md border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium text-cyan-600 dark:text-cyan-400">Free Tier</span>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">You are currently on the free plan which includes 1,000 jobs per month.</p>

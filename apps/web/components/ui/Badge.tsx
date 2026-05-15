@@ -1,26 +1,37 @@
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "pending" | "active" | "completed" | "failed" | "outline"
+const badgeVariants = cva(
+  "inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide",
+  {
+    variants: {
+      variant: {
+        default: "border-border bg-muted text-muted-foreground",
+        outline: "border-border text-foreground",
+        pending:
+          "border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+        active:
+          "border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        completed:
+          "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+        failed:
+          "border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400",
+        cyan: "border-cyan-500/20 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
+
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />
 }
 
-export function Badge({ className, variant = "default", ...props }: BadgeProps) {
-  return (
-    <div
-      className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-        {
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80": variant === "default",
-          "border-transparent bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500": variant === "pending",
-          "border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400": variant === "active",
-          "border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-500": variant === "completed",
-          "border-transparent bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-500": variant === "failed",
-          "text-foreground": variant === "outline",
-        },
-        className
-      )}
-      {...props}
-    />
-  )
-}
+export { Badge, badgeVariants }
