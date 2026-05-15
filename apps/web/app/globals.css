@@ -1,34 +1,33 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-cyan: #06b6d4;
+  --color-blue: #3b82f6;
+  --color-emerald: #10b981;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -39,11 +38,11 @@
   :root {
     --background: #ffffff;
     --foreground: #09090b;
-    --card: #ffffff;
+    --card: #fafafa;
     --card-foreground: #09090b;
     --popover: #ffffff;
     --popover-foreground: #09090b;
-    --primary: #7c3aed; /* violet-600 */
+    --primary: #0891b2;
     --primary-foreground: #ffffff;
     --secondary: #f4f4f5;
     --secondary-foreground: #18181b;
@@ -55,30 +54,30 @@
     --destructive-foreground: #ffffff;
     --border: #e4e4e7;
     --input: #e4e4e7;
-    --ring: #7c3aed;
+    --ring: #06b6d4;
     --radius: 0.5rem;
   }
-  
+
   .dark {
     --background: #09090b;
     --foreground: #fafafa;
-    --card: #09090b;
+    --card: #18181b;
     --card-foreground: #fafafa;
-    --popover: #09090b;
+    --popover: #18181b;
     --popover-foreground: #fafafa;
-    --primary: #7c3aed; /* violet-600 */
-    --primary-foreground: #fafafa;
+    --primary: #06b6d4;
+    --primary-foreground: #09090b;
     --secondary: #27272a;
     --secondary-foreground: #fafafa;
-    --muted: #27272a;
+    --muted: #18181b;
     --muted-foreground: #a1a1aa;
     --accent: #27272a;
     --accent-foreground: #fafafa;
     --destructive: #7f1d1d;
     --destructive-foreground: #fafafa;
     --border: #27272a;
-    --input: #27272a;
-    --ring: #7c3aed;
+    --input: #2a2a2e;
+    --ring: #06b6d4;
   }
 }
 
@@ -86,7 +85,26 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  ::selection {
+    @apply bg-cyan-500/20 text-foreground;
+  }
+}
+
+@layer utilities {
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--border) 40%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--border) 40%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
+  }
+
+  .text-balance {
+    text-wrap: balance;
   }
 }

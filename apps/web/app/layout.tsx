@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
-  title: "Queuely | Notification infrastructure for modern apps",
-  description: "Send emails, SMS, push notifications and webhooks through one unified API.",
+  title: "Queuely | Notification infrastructure for modern applications",
+  description:
+    "Build reliable multi-channel notification workflows with real-time delivery analytics and developer-first APIs.",
 };
 
 export default function RootLayout({
@@ -16,13 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      afterSignInUrl="/dashboard"
-      afterSignOutUrl="/"
-    >
-      <html lang="en" className="dark scroll-smooth">
-        <body className={`${inter.variable} font-sans antialiased`}>
-          {children}
+    <ClerkProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} scroll-smooth dark`}
+      >
+        <body className="min-h-screen font-sans">
+          <ThemeProvider>{children}</ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
