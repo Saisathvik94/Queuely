@@ -1,6 +1,7 @@
 {
-  "name": "queuely",
+  "name": "@queuely/api",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -26,6 +27,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@queuely/db": "workspace:*",
     "@queuely/config": "workspace:*",
     "@queuely/types": "workspace:*",
     "@aws-sdk/client-sqs": "^3.1034.0",

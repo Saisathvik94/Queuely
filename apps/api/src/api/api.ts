@@ -6,10 +6,12 @@ import type {
   JobSubmitResponse,
 } from "@queuely/types";
 import { generateJobId } from "@queuely/config";
+import { apiKeyMiddleware } from "../middleware/apiKey.js";
+import { db } from "@queuely/db";
 
 const router : Router = Router();
 
-router.post("/jobs", async (req, res) => {
+router.post("/jobs", apiKeyMiddleware,async (req, res) => {
   try {
     const payload = req.body as EmailPayload
 
@@ -19,6 +21,17 @@ router.post("/jobs", async (req, res) => {
       jobId,
       payload,
     });
+
+    await db.job.create({
+      data: {
+        jobId,
+        userId: req.userId!,
+        apiKeyId: req.apiKeyId!,
+        type: payload.type,
+        status: "pending",
+        payload: payload as any,
+      }
+    })
 
     const response: ApiResponse<JobSubmitResponse> = {
       success: true,
