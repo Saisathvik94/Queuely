@@ -1,0 +1,42 @@
+{
+  "name": "queuely-sdk",
+  "version": "0.1.0",
+  "description": "Notification infrastructure for modern apps — send emails, SMS, push and webhooks through one unified SDK",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "keywords": [
+    "email",
+    "notifications",
+    "queue",
+    "sdk",
+    "smtp",
+    "transactional"
+  ],
+  "author": "Saisathvik94",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saisathvik94/Queuely.git"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
+  }
+}
