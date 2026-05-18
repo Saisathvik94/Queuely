@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "Queuely | Notification infrastructure for modern applications",
   description:
     "Build reliable multi-channel notification workflows with real-time delivery analytics and developer-first APIs.",
+  icons: {
+    icon: "./logo.png"
+  }
 };
 
 export default function RootLayout({

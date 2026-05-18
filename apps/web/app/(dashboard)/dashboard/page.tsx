@@ -5,6 +5,7 @@ import { RecentJobs } from "@/components/dashboard/RecentJobs"
 import { getCurrentUser } from "@/lib/auth"
 import { db } from "@queuely/db"
 import { Activity, AlertCircle, CheckCircle, Send } from "lucide-react"
+import { getUsageChartData } from "@/app/actions/stats"
 
 export const metadata = {
   title: "Dashboard | Queuely",
@@ -12,6 +13,7 @@ export const metadata = {
 
 export default async function DashboardPage() {
   const user = await getCurrentUser()
+  const chartData = await getUsageChartData()
 
   const [totalJobs, failedJobs, activeJobs, recentJobs] = await Promise.all([
     db.job.count({ where: { userId: user.id } }),
@@ -55,7 +57,7 @@ export default async function DashboardPage() {
           />
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <UsageChart />
+          <UsageChart data={chartData} />
           <RecentJobs jobs={recentJobs} />
         </div>
       </main>

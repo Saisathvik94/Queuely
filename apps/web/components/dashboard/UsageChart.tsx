@@ -2,17 +2,11 @@
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 
-const data = [
-  { name: "Mon", total: 120 },
-  { name: "Tue", total: 300 },
-  { name: "Wed", total: 450 },
-  { name: "Thu", total: 200 },
-  { name: "Fri", total: 600 },
-  { name: "Sat", total: 150 },
-  { name: "Sun", total: 80 },
-]
+interface UsageChartProps {
+  data: { name: string; total: number }[]
+}
 
-export function UsageChart() {
+export function UsageChart({ data }: UsageChartProps) {
   return (
     <Card className="col-span-4 border-border/80">
       <CardHeader>
