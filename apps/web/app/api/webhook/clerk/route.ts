@@ -1,7 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import prisma from '@/lib/db'
+import { db } from '@queuely/db'
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     }
 
     try {
-      await prisma.user.create({
+      await db.user.create({
         data: {
           clerkId: id,
           email: email,
