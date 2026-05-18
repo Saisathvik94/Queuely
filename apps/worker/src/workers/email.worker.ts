@@ -2,7 +2,8 @@ import nodemailer from "nodemailer";
 import { env } from "../../../../packages/config/src/env.config.js";
 import { Job, Worker } from "bullmq";
 import type { EmailPayload, EmailResult } from "@queuely/types";
-import { redisConnection } from "../../../../packages/config/src/redis.config.js";
+import { redisConnection } from "@queuely/config";
+import { db } from "@queuely/db";
 
 
 const transporter = nodemailer.createTransport({
@@ -28,6 +29,12 @@ export const emailWorker = new Worker<EmailPayload, EmailResult>("email-queue", 
     console.log("Job has Started........");
     await job.updateProgress(0)
 
+    // update Job Status 
+    await db.job.update({
+        where: { jobId: job.opts.jobId ?? job.id! },
+        data: { status: "active" }
+    })
+
     // send mail
     const mail = await transporter.sendMail({
         from: env.SMTP_FROM,
@@ -48,6 +55,14 @@ export const emailWorker = new Worker<EmailPayload, EmailResult>("email-queue", 
 
     await job.updateProgress(100);
 
+    await db.job.update({
+        where: { jobId: job.opts.jobId ?? job.id! },
+        data: {
+            status: "completed",
+            result: result as any,
+        }
+    })
+
      console.log("Email Sent")
 
     return result 
@@ -62,6 +77,15 @@ emailWorker.on("completed", (job)=>{
     console.log({ result: job.returnvalue }, "Email Job Completed")
 })
 
-emailWorker.on("failed", (job, error) => {
+emailWorker.on("failed", async(job, error) => {
     console.error({ jobId: job?.id, error: error.message }, "Email job failed");
+    if (job) {
+        await db.job.update({
+            where: { jobId: job.opts.jobId ?? job.id! },
+            data: {
+                status: "failed",
+                error: error.message
+            }
+        })
+    }
 });
