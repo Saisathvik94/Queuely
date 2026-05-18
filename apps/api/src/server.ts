@@ -11,8 +11,17 @@ app.use("/dashboard", serverAdapter.getRouter())
 app.use("/", EmailRouter)
 
 
+app.get('/health', (req, res) => {
+    const data = {
+        message: "Hello from Queuely",
+        timestamp: new Date().toISOString()
+    }
+    res.json(data)
+})
 
-app.listen(3000, async()=>{
-    console.log("Queuely running at http://localhost:3000")
-    console.log("Bull Board at http://localhost:3000/dashboard")
+
+
+app.listen(3001, async()=>{
+    console.log("Queuely running at http://localhost:3001")
+    console.log("Bull Board at http://localhost:3001/dashboard")
 })
