@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/lib/auth"
-import prisma from "@/lib/db"
+import { db } from "@queuely/db"
 import JobsPageClient from "./client-page"
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 export default async function JobsPage() {
   const user = await getCurrentUser()
 
-  const jobs = await prisma.job.findMany({
+  const jobs = await db.job.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
     take: 100, // Show last 100 jobs

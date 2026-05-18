@@ -1,7 +1,7 @@
 "use server"
 
 import { getCurrentUser } from "@/lib/auth"
-import prisma from "@/lib/db"
+import { db } from "@queuely/db"
 import { generateApiKey } from "@/lib/apiKeys"
 import { revalidatePath } from "next/cache"
 
@@ -9,7 +9,7 @@ export async function createApiKey(name: string) {
   const user = await getCurrentUser()
   const { rawKey, prefix, keyHash } = generateApiKey()
 
-  await prisma.apiKey.create({
+  await db.apiKey.create({
     data: {
       userId: user.id,
       name,
@@ -26,7 +26,7 @@ export async function createApiKey(name: string) {
 export async function revokeApiKey(id: string) {
   const user = await getCurrentUser()
 
-  await prisma.apiKey.update({
+  await db.apiKey.update({
     where: {
       id,
       userId: user.id, // ensure user owns the key
