@@ -48,14 +48,14 @@ export default function DocsPage() {
           </p>
           <div className="mt-6 space-y-4">
             <CodeBlock
-              code="npm install @queuely/sdk"
+              code="npm install @queuely-sdk"
               language="bash"
               title="Terminal"
             />
             <CodeBlock
-              code={`import { Queuely } from "@queuely/sdk"
+              code={`import { QueuelyClient } from "queuely-sdk"
 
-const queuely = new Queuely(process.env.QUEUELY_API_KEY!)`}
+const client = new QueuelyClient(process.env.QUEUELY_API_KEY!)`}
             />
           </div>
         </section>

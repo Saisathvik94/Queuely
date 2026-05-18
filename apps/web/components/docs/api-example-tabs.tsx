@@ -12,25 +12,25 @@ const examples = {
     "to": "user@example.com",
     "template": "welcome"
   }'`,
-  typescript: `import { Queuely } from "@queuely/sdk"
+  typescript: `import { QueuelyClient } from "@queuely-sdk"
 
-const queuely = new Queuely(process.env.QUEUELY_API_KEY!)
+const client = new QueuelyClient(process.env.QUEUELY_API_KEY!)
 
-await queuely.notifications.send({
-  channel: "email",
+await client.email.send({
+  type: "email",
   to: "user@example.com",
-  template: "welcome",
-  data: { name: "Alex" },
+  subject: "welcome",
+  body: <p>Hello from Queuely</p>,
 })`,
-  javascript: `import Queuely from "@queuely/sdk"
+  javascript: `import { QueuelyClient } from "@queuely-sdk"
 
-const queuely = new Queuely(process.env.QUEUELY_API_KEY)
+const client = new QueuelyClient(process.env.QUEUELY_API_KEY)
 
-await queuely.notifications.send({
-  channel: "email",
+await client.email.send({
+  type: "email",
   to: "user@example.com",
-  template: "welcome",
-  data: { name: "Alex" },
+  subject: "welcome",
+  body: <p>Hello from Queuely</p>
 })`,
 }
 
