@@ -5,7 +5,7 @@ import type { EmailPayload } from "@queuely/types";
 export function generateJobId(payload: EmailPayload): string {
   const hash = crypto
     .createHash("sha256")
-    .update(JSON.stringify(payload))
+    .update(JSON.stringify(payload) + Date.now())
     .digest("hex");
 
   return `email-${hash}`;
