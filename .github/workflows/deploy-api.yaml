@@ -12,6 +12,8 @@ jobs:
       packages: write
 
     steps:
+      - name: Set lowercase owner
+        run: echo "OWNER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - uses: actions/checkout@v4
 
       - name: Login to GHCR
@@ -27,7 +29,7 @@ jobs:
           context: .
           file: apps/api/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/queuely-api:latest
+          tags: ghcr.io/${{ env.OWNER }}/queuely-api:latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
@@ -35,8 +37,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: OWNER
           script: |
-            docker pull ghcr.io/${{ github.repository_owner }}/queuely-api:latest
+            docker pull ghcr.io/$OWNER/queuely-api:latest
             docker stop queuely-api || true
             docker rm queuely-api || true
             docker run -d \
@@ -44,4 +47,4 @@ jobs:
               --restart always \
               -p 3001:3001 \
               --env-file /home/ec2-user/api.env \
-              ghcr.io/${{ github.repository_owner }}/queuely-api:latest
+              ghcr.io/$OWNER/queuely-api:latest
