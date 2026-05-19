@@ -7,7 +7,7 @@ import type {
 } from "@queuely/types";
 import { generateJobId } from "@queuely/config";
 import { apiKeyMiddleware } from "../middleware/apiKey.js";
-import { db } from "@queuely/db";
+import prisma from "@queuely/db";
 
 const router : Router = Router();
 
@@ -22,7 +22,7 @@ router.post("/jobs", apiKeyMiddleware,async (req, res) => {
       payload,
     });
 
-    await db.job.create({
+    await prisma.job.create({
       data: {
         jobId,
         userId: req.userId!,

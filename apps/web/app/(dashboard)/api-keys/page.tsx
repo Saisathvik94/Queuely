@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/lib/auth"
-import { db } from "@queuely/db"
+import prisma from "@queuely/db"
 import ApiKeysPageClient from "./client-page"
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 export default async function ApiKeysPage() {
   const user = await getCurrentUser()
 
-  const apiKeys = await db.apiKey.findMany({
+  const apiKeys = await prisma.apiKey.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
   })

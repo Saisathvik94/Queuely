@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { db } from "@queuely/db";
+import prisma from "@queuely/db";
 import crypto from "crypto"
 
 export async function apiKeyMiddleware(req: Request, res: Response, next: NextFunction){
@@ -17,7 +17,7 @@ export async function apiKeyMiddleware(req: Request, res: Response, next: NextFu
         const keyHash = crypto.createHash("sha256").update(rawKey).digest("hex")
 
         // DB Query
-        const dbKey = await db.apiKey.findUnique({ where : { keyHash } })
+        const dbKey = await prisma.apiKey.findUnique({ where : { keyHash } })
 
         if(!dbKey) {
             return res.status(401).json({ success: false, error: "Invalid API key" })

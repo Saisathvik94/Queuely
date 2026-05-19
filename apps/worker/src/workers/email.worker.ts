@@ -3,7 +3,7 @@ import { env } from "@queuely/config";
 import { Job, Worker } from "bullmq";
 import type { EmailPayload, EmailResult } from "@queuely/types";
 import { redisConnection } from "@queuely/config";
-import { db } from "@queuely/db";
+import prisma from "@queuely/db";
 
 
 const transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ export const emailWorker = new Worker<EmailPayload, EmailResult>("email-queue", 
     await job.updateProgress(0)
 
     // update Job Status 
-    await db.job.update({
+    await prisma.job.update({
         where: { jobId: job.opts.jobId ?? job.id! },
         data: { status: "active" }
     })
@@ -55,7 +55,7 @@ export const emailWorker = new Worker<EmailPayload, EmailResult>("email-queue", 
 
     await job.updateProgress(100);
 
-    await db.job.update({
+    await prisma.job.update({
         where: { jobId: job.opts.jobId ?? job.id! },
         data: {
             status: "completed",
@@ -80,7 +80,7 @@ emailWorker.on("completed", (job)=>{
 emailWorker.on("failed", async(job, error) => {
     console.error({ jobId: job?.id, error: error.message }, "Email job failed");
     if (job) {
-        await db.job.update({
+        await prisma.job.update({
             where: { jobId: job.opts.jobId ?? job.id! },
             data: {
                 status: "failed",

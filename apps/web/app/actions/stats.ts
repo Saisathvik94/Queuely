@@ -1,7 +1,7 @@
 "use server"
 
 import { getCurrentUser } from "@/lib/auth"
-import { db } from "@queuely/db"
+import prisma from "@queuely/db"
 import { subDays, startOfDay, format } from "date-fns"
 
 export async function getUsageChartData() {
@@ -21,7 +21,7 @@ export async function getUsageChartData() {
   // Query jobs per day
   const data = await Promise.all(
     days.map(async (day) => {
-      const count = await db.job.count({
+      const count = await prisma.job.count({
         where: {
           userId: user.id,
           createdAt: {

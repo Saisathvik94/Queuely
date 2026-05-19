@@ -3,7 +3,7 @@ import { StatsCard } from "@/components/dashboard/StatsCard"
 import { UsageChart } from "@/components/dashboard/UsageChart"
 import { RecentJobs } from "@/components/dashboard/RecentJobs"
 import { getCurrentUser } from "@/lib/auth"
-import { db } from "@queuely/db"
+import prisma from "@queuely/db"
 import { Activity, AlertCircle, CheckCircle, Send } from "lucide-react"
 import { getUsageChartData } from "@/app/actions/stats"
 
@@ -16,10 +16,10 @@ export default async function DashboardPage() {
   const chartData = await getUsageChartData()
 
   const [totalJobs, failedJobs, activeJobs, recentJobs] = await Promise.all([
-    db.job.count({ where: { userId: user.id } }),
-    db.job.count({ where: { userId: user.id, status: "failed" } }),
-    db.job.count({ where: { userId: user.id, status: "active" } }),
-    db.job.findMany({
+    prisma.job.count({ where: { userId: user.id } }),
+    prisma.job.count({ where: { userId: user.id, status: "failed" } }),
+    prisma.job.count({ where: { userId: user.id, status: "active" } }),
+    prisma.job.findMany({
       where: { userId: user.id },
       orderBy: { createdAt: "desc" },
       take: 5,

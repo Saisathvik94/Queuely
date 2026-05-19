@@ -1,5 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
-import { db } from "@queuely/db"
+import prisma from "@queuely/db"
 import { redirect } from "next/navigation"
 
 export async function getCurrentUser() {
@@ -9,7 +9,7 @@ export async function getCurrentUser() {
     redirect("/sign-in")
   }
 
-  let user = await db.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: { clerkId },
   })
 
@@ -21,7 +21,7 @@ export async function getCurrentUser() {
     const email = clerkUser.emailAddresses[0]?.emailAddress
     if (!email) redirect("/sign-in")
 
-    user = await db.user.create({
+    user = await prisma.user.create({
       data: {
         clerkId: clerkId,
         email: email,
