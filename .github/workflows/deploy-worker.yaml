@@ -3,10 +3,6 @@ name: Deploy Worker
 on:
   push:
     branches: [main]
-    paths:
-      - 'apps/worker/**'
-      - 'packages/**'
-      - '.github/workflows/deploy-worker.yml'
 
 jobs:
   deploy:
