@@ -42,8 +42,9 @@ jobs:
             docker pull ghcr.io/$OWNER/queuely-worker:latest
             docker stop queuely-worker || true
             docker rm queuely-worker || true
+            docker image prune -af
             docker run -d \
-              --name queuely-worker \
-              --restart always \
-              --env-file /home/ec2-user/worker.env \
-              ghcr.io/$OWNER/queuely-worker:latest
+                --name queuely-worker \
+                --restart always \
+                --env-file /home/ec2-user/worker.env \
+                ghcr.io/$OWNER/queuely-worker:latest

@@ -42,9 +42,10 @@ jobs:
             docker pull ghcr.io/$OWNER/queuely-api:latest
             docker stop queuely-api || true
             docker rm queuely-api || true
+            docker image prune -af
             docker run -d \
-              --name queuely-api \
-              --restart always \
-              -p 3001:3001 \
-              --env-file /home/ec2-user/api.env \
-              ghcr.io/$OWNER/queuely-api:latest
+                --name queuely-api \
+                --restart always \
+                -p 3001:3001 \
+                --env-file /home/ec2-user/api.env \
+                ghcr.io/$OWNER/queuely-api:latest
