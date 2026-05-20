@@ -1,6 +1,6 @@
 import { SendMessageCommand } from "@aws-sdk/client-sqs";
 import { sqsClient } from "@queuely/config";
-import { env } from "@queuely/config";
+import { apiEnv as env } from "@queuely/config";
 import type { EmailPayload } from "@queuely/types";
 
 

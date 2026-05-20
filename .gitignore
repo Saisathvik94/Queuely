@@ -51,3 +51,10 @@ terraform.tfvars
 
 
 generated/
+
+# Turbo
+.turbo/
+**/turbo/cache
+
+# Package dist (built artifacts)
+packages/*/dist

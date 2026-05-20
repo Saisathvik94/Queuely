@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { env } from "@queuely/config";
+import { workerEnv as env } from "@queuely/config";
 import { Job, Worker } from "bullmq";
 import type { EmailPayload, EmailResult } from "@queuely/types";
 import { redisConnection } from "@queuely/config";

@@ -1,7 +1,7 @@
 import { ReceiveMessageCommand, DeleteMessageCommand, type Message, } from "@aws-sdk/client-sqs";
 import { sqsClient } from "@queuely/config";
 import { addEmailJob } from "../queues/bullmq.queue.js";
-import { env } from "@queuely/config";
+import { workerEnv as env } from "@queuely/config";
 import { sqsMessageSchema } from "@queuely/types" ;
 
 const QUEUE_URL = env.SQS_QUEUE_URL;
