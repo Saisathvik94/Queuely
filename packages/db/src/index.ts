@@ -1,15 +1,10 @@
-import { PrismaPg } from "@prisma/adapter-pg"
-import { PrismaClient } from "@prisma/client"
-import pg from "pg"
+import { PrismaNeon } from "@prisma/adapter-neon"
+import { PrismaClient } from "../generated/client.js"
 
 const prismaClientSingleton = () => {
-  const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: true }
-      : false
+  const adapter = new PrismaNeon({ 
+    connectionString: process.env.DATABASE_URL! 
   })
-  const adapter = new PrismaPg(pool)
   return new PrismaClient({ adapter })
 }
 
