@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
     "@prisma/client",
     "@prisma/adapter-neon",
     "@neondatabase/serverless",
-    "@queuely/db"
+    "@queuely/db",
+    "@prisma/client-runtime-utils",
   ],
 };
 
