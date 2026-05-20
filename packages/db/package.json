@@ -12,6 +12,7 @@
     }
   },
   "scripts": {
+    "prebuild": "prisma generate",
     "build": "tsc",
     "generate": "prisma generate",
     "db:push": "prisma db push",
