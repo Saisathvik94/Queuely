@@ -1,17 +1,27 @@
 {
   "name": "Queuely",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Saisathvik94",
   "license": "ISC",
   "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma",
+      "esbuild",
+      "sharp",
+      "@clerk/shared",
+      "msgpackr-extract",
+      "unrs-resolver"
+    ]
+  },
   "devDependencies": {
     "turbo": "^2.9.12"
   }
