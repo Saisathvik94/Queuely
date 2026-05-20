@@ -34,11 +34,8 @@ COPY --from=builder /app/packages/config/dist ./packages/config/dist
 COPY --from=builder /app/packages/types/dist ./packages/types/dist
 COPY --from=builder /app/packages/db/dist ./packages/db/dist
 
-# Copy Prisma generated client
-COPY --from=builder /app/packages/db/prisma/generated ./packages/db/prisma/generated
-
-# Copy Prisma engine binary from pnpm store
-COPY --from=builder "/app/node_modules/.pnpm/@prisma+client@7.8.0_prisma@7.8.0_@types+react-dom@19.2.3_@types+react@19.2.14__@types+_3b389ca45879b333f224d81033b8e0c4/node_modules/.prisma" "./node_modules/.prisma"
+# Copy Prisma WASM client
+COPY --from=builder "/app/node_modules/.pnpm/@prisma+client@7.8.0_prisma@7.8.0_@types+react-dom@19.2.3_@types+react@19.2.14__@types+_3b389ca45879b333f224d81033b8e0c4/node_modules/.prisma/client" "./node_modules/.prisma/client"
 
 WORKDIR /app/apps/api
 EXPOSE 3001
