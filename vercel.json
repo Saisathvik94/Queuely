@@ -1,5 +1,5 @@
 {
-  "installCommand": "pnpm install --no-frozen-lockfile",
+  "installCommand": "pnpm install --no-frozen-lockfile && pnpm --filter @queuely/db run generate",
   "buildCommand": "turbo run build --filter=@queuely/web",
   "outputDirectory": ".next",
   "framework": "nextjs"
